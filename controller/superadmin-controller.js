@@ -1,4 +1,7 @@
 const { User } = require('../models/user-model');
+const passwordHash = require('password-hash')
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 
 async function getSuperAdmin(req, res) {
     try {
@@ -25,15 +28,53 @@ async function updateSuperAdmin(req, res) {
         console.log(err);
     }
 }
+////////////////////// createSuperAdmin /////////////////////////////
+function validateUserForRegistration(user) {
+    const schema = Joi.object({
+          name: Joi.string().min(4).max(40),
+          email: Joi.string().email().required(),
+          password: Joi.string().min(6).max(40).required(), 
+        //   phone: Joi.string().min(10).max(12)
+    });
+    const result = schema.validate(user)
+    return result;
+}
 
-async function createSuperAdmin(req, res) {
-    try {
-        const result = await User.create(req.body);
-        res.json(result);
-        // res.json({ message: "suceess createSuperAdmin" });
+async function createSuperAdmin(request, response) {
+    try { 
+        const result = validateUserForRegistration(request.body) 
+        if (result.error) {
+              response.status(400); 
+              console.log(result.error.details[0].message)
+            // return next(new Error(result.error.details[0].message))
+        }
+        const userData = result.value;
+      
+        let isExists = await User.isExists(userData.email)  // is this email exist 
+        if (!isExists) {
+              userData.password = passwordHash.generate(userData.password)
+              user = await new User(userData).save()
+  
+              const token = await jwt.sign({ _id: user._id }, process.env.JWT_KEY, { expiresIn: "30 days" })
+  
+              response.cookie("jwt", token, {
+                    expires: new Date(Date.now() + 60 * 60 * 60 * 24 * 30),
+                    httpOnly: true
+              })
+  
+              response.json({ msg: "register successful", token })
+  
+        } else {
+              response.status(400);
+            //   return next(new Error('email already exist'))
+            console.log("user nahi hai ")
+        }
     } catch (err) {
-        res.json({ message: err });
+        response.json({ message: err });
         console.log(err);
     }
 }
+
+
+/////////////
 module.exports = { getSuperAdmin, updateSuperAdmin, createSuperAdmin };

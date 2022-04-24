@@ -10,8 +10,8 @@ const {
 const superAdminRouter = express.Router();
 
 superAdminRouter.get("/", getSuperAdmin);//to check router is working or not
-superAdminRouter.post("/", createSuperAdmin);
-superAdminRouter.post("/", updateSuperAdmin);//register new user
+superAdminRouter.post("/createSuperAdmin", createSuperAdmin);
+superAdminRouter.post("/updateSuperAdmin", updateSuperAdmin);//register new user
 
 
 module.exports = { superAdminRouter };

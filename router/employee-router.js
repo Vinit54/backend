@@ -3,7 +3,6 @@ const {
     getEmployee,
     saveEmployee,
     updateEmployee,
-   
 } = require("../controller/employee-controller");
 
 const employeeRouter = express.Router();

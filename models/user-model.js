@@ -14,11 +14,7 @@ const userSchema = new Schema(
         role: {
             type: String,
             default: "superadmin",
-        },
-        username: {
-            type: String,
-            required: true
-        },
+        }, 
         password: {
             type: String,
             required: true
@@ -31,14 +27,14 @@ const userSchema = new Schema(
     }
 );
 
-// superAdmin.statics.isExists = async function isExists(email) {
-//     console.log("is Exists method");
-//     console.log(email);
-//     const user = await this.findOne({ email: email })
-//     return user ? true : false;
-// }
+userSchema.statics.isExists = async function isExists(email) {
+    console.log("is Exists method");
+    console.log(email);
+    const user = await this.findOne({ email: email })
+    return user ? true : false;
+}
 
 
 const User = mongoose.model('user', userSchema)
 
-module.exports = { User };
+module.exports = {User};
