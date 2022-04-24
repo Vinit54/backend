@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const adminSchema = new Schema(
     {
         name: {
             type: String,
@@ -28,14 +28,14 @@ const userSchema = new Schema(
     }
 );
 
-userSchema.statics.isExists = async function isExists(email) {
+adminSchema.statics.isExists = async function isExists(email) {
     console.log("is Exists method");
     console.log(email);
-    const user = await this.findOne({ email: email })
-    return user ? true : false;
+    const admin = await this.findOne({ email: email })
+    return admin ? true : false;
 }
 
 
-const User = mongoose.model('user', userSchema)
+const Admin = mongoose.model('admin', adminSchema)
 
-module.exports = { User };
+module.exports = { Admin };
