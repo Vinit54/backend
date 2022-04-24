@@ -7,7 +7,7 @@ function superadminAuthMiddleware(request, response, next) {
         let token = null;
         token = bearerToken.split(" ")[1];
         const payload = jwt.verify(token, process.env.JWT_KEY)
-        if (payload.isSuperAdmin) {
+        if (payload.role === 'superadmin') {
             return next()
         }
         response.status(401);
