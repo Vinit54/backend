@@ -34,6 +34,7 @@ function validateUserForRegistration(user) {
           name: Joi.string().min(4).max(40),
           email: Joi.string().email().required(),
           password: Joi.string().min(6).max(40).required(), 
+          role: Joi.string().valid('superadmin', 'admin', 'employee').required()
         //   phone: Joi.string().min(10).max(12)
     });
     const result = schema.validate(user)
@@ -67,7 +68,7 @@ async function createSuperAdmin(request, response) {
         } else {
               response.status(400);
             //   return next(new Error('email already exist'))
-            console.log("user nahi hai ")
+            console.log("user not found ")
         }
     } catch (err) {
         response.json({ message: err });

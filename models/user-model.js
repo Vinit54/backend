@@ -13,8 +13,8 @@ const userSchema = new Schema(
         },
         role: {
             type: String,
-            default: "superadmin",
-        }, 
+            enum: ["superadmin", "admin", "employee"]
+        },
         password: {
             type: String,
             required: true
@@ -37,4 +37,4 @@ userSchema.statics.isExists = async function isExists(email) {
 
 const User = mongoose.model('user', userSchema)
 
-module.exports = {User};
+module.exports = { User };
