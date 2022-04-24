@@ -6,11 +6,11 @@ const {
     deleteAdmin,
 } = require("../controller/employee-controller");
 
-const userRouter = express.Router();
+const adminRouter = express.Router();
 
-userRouter.get("/", getAdmin);
-userRouter.post("/createAdmin", createAdmin);
-userRouter.post("/updateAdmin", updateAdmin);
-userRouter.delete("/deleteAdmin", deleteAdmin);
+adminRouter.get("/", getAdmin);
+adminRouter.post("/createAdmin", createAdmin);
+adminRouter.put("/updateAdmin", updateAdmin);
+adminRouter.delete("/deleteAdmin", deleteAdmin);
 
-module.exports = { userRouter };
+module.exports = { adminRouter };
