@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const superAdmin = new Schema(
+const userSchema = new Schema(
     {
         name: {
             type: String,
@@ -39,6 +39,6 @@ const superAdmin = new Schema(
 // }
 
 
-const SuperAdmin = mongoose.model('user', superAdmin)
+const User = mongoose.model('user', userSchema)
 
-module.exports = { SuperAdmin };
+module.exports = { User };

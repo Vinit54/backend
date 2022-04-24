@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000
 const app = express();
 
 const { superAdminRouter } = require('./router/superadmin-router');
+const {login} = require('./controller/global-controller');
 // const { admin } = require('./router/admin-router');
 // const { employee } = require('./router/employee-router');
 
@@ -17,6 +18,7 @@ const APIRouter = express.Router()
 app.use('/api', APIRouter)
 
 APIRouter.get('', (req, res) => res.json({ 'msg': 'api is working' }))
+APIRouter.post("/login", login);
 APIRouter.use("/superadmin", superAdminRouter);
 // APIRouter.use("/admin", admin);
 // APIRouter.use("/employee", employee);
@@ -25,18 +27,3 @@ app.listen(PORT, () => {
     console.log(`server listning on port ${PORT}`)
 })
 
-// // APIRouter.get("/"+process.env.UPLOAD_FOLDER+"/*", (req, res, next) => {
-// //       const path = req.url;
-// //       const filePath = `${__dirname}${path}`
-// //       res.sendFile(filePath);
-// //       // next()   // for show normal error => cannot get ....
-// // });
-
-// // APIRouter.get("/"+process.env.CATEGORY_UPLOAD_FOLDER+"/*", (req, res, next) => {
-// //       const path = req.url;
-// //       const filePath = `${__dirname}${path}`
-// //       res.sendFile(filePath);
-// //       // next()   // for show normal error => cannot get ....
-// // });
-
-// app.use(handleError)
